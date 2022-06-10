@@ -1,0 +1,25 @@
+public class OpportunityNumberHandler {
+    public static void insertAfterOpportunityNumber(List<Opportunity> list1)
+    {
+        List<Id> oppid=new List<Id>(); 
+        Set<Id> set1=new Set<Id>();
+        List<Account> accountlist=new List<Account>();
+        for(Opportunity opp:list1)  
+        {
+            if(opp.AccountId!=null){
+                set1.add(opp.AccountId); 
+            }
+        }     
+        List<Id> listnum=new List<Id>();
+        listnum.addAll(set1);
+        for(integer i=0;i<listnum.size();i++)
+        {
+            List<Opportunity> opp2=[SELECT Id,Name from Opportunity where AccountId =:listnum[i]];
+            Account acc=new Account();
+            acc.id=listnum[i];
+            acc.Opportunity_Number__c=opp2.size();
+            accountlist.add(acc);
+        }
+        update accountlist;
+    }
+}
